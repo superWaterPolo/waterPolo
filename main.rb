@@ -1,4 +1,9 @@
 require 'dxruby'
+require_relative 'conflict'
+require_relative 'draw'
+require_relative 'gameOver'
+require_relative 'ghostMove'
+require_relative 'pacmanMove'
 
 Window.width = 640
 Window.height = 480
@@ -25,48 +30,24 @@ maze = [
 ]
 
 Window.loop do
-  # パックマンの移動処理
-  if Input.key_down?(K_LEFT)
-    pacman_x -= pacman_speed
-  elsif Input.key_down?(K_RIGHT)
-    pacman_x += pacman_speed
-  elsif Input.key_down?(K_UP)
-    pacman_y -= pacman_speed
-  elsif Input.key_down?(K_DOWN)
-    pacman_y += pacman_speed
-  end
+  pacman_x, pacman_y = pacmanMove(pacman_x, pacman_y, pacman_speed)
 
-  # ゴーストの移動処理（ランダムな移動）
-  if ghost_x < pacman_x
-    ghost_x += ghost_speed
-  elsif ghost_x > pacman_x
-    ghost_x -= ghost_speed
-  else
-    if ghost_y < pacman_y
-      ghost_y += ghost_speed
-    elsif ghost_y > pacman_y
-      ghost_y -= ghost_speed
-    end
-  end
+  ghost_x, ghost_y = ghostMove(ghost_x, ghost_y, ghost_speed, pacman_x, pacman_y)
 
-  # 衝突判定（仮の判定）
-  if pacman_x == ghost_x && pacman_y == ghost_y
-    # ゲームオーバー処理
-    puts "Game Over"
+  if gameOver(conflict(pacman_x, pacman_y, ghost_x, ghost_y))
     break
   end
-
   # 描画処理
-  Window.draw(pacman_x, pacman_y, Image.new(32, 32, C_YELLOW)) # パックマンを描画
-  Window.draw(ghost_x, ghost_y, Image.new(32, 32, C_RED)) # ゴーストを描画
+  draw(pacman_x, pacman_y, C_YELLOW)
+  draw(ghost_x, ghost_y, C_RED)
 
   # 迷路を描画
   maze.each_with_index do |row, y|
     row.each_with_index do |cell, x|
       if cell == 1
-        Window.draw(x * 32, y * 32, Image.new(32, 32, C_WHITE))
+        draw(x * 32, y * 32, C_WHITE)
       else
-        Window.draw(x * 32, y * 32, Image.new(32, 32, C_BLACK))
+        draw(x * 32, y * 32, C_BLACK)
       end
     end
   end
