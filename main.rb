@@ -37,8 +37,17 @@ Window.loop do
   end
 
   # ゴーストの移動処理（ランダムな移動）
-  ghost_x += ghost_speed * [-1, 1].sample
-  ghost_y += ghost_speed * [-1, 1].sample
+  if ghost_x < pacman_x
+    ghost_x += ghost_speed
+  elsif ghost_x > pacman_x
+    ghost_x -= ghost_speed
+  else
+    if ghost_y < pacman_y
+      ghost_y += ghost_speed
+    elsif ghost_y > pacman_y
+      ghost_y -= ghost_speed
+    end
+  end
 
   # 衝突判定（仮の判定）
   if pacman_x == ghost_x && pacman_y == ghost_y
