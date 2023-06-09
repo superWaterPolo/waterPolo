@@ -20,7 +20,7 @@ ghost_y = 160
 ghost_speed = 1
 
 # 迷路データ（仮のデータ）
-maze = map(10, 10)
+maze = map()
 Window.loop do
   pacman_x, pacman_y = pacmanMove(pacman_x, pacman_y, pacman_speed)
 
