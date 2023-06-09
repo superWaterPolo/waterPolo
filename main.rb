@@ -20,7 +20,8 @@ ghost_y = 160
 ghost_speed = 1
 
 # 迷路データ（仮のデータ）
-maze = map(15, 20)
+maze = maze = Array.new(15) { Array.new(21, "#") }
+maze = generate_maze(maze, 3, 5)
 Window.loop do
   pacman_x, pacman_y = pacmanMove(pacman_x, pacman_y, pacman_speed)
 
@@ -34,7 +35,7 @@ Window.loop do
   # 迷路を描画
   maze.each_with_index do |row, y|
     row.each_with_index do |cell, x|
-      if cell == 1
+      if cell == "#"
         draw(x * 32, y * 32, C_WHITE)
       else
         draw(x * 32, y * 32, C_BLACK)
