@@ -20,13 +20,21 @@ ghost_y = 160
 ghost_speed = 1
 
 # 迷路データ（仮のデータ）
-maze = map()
+maze = map(10, 10)
+
+#スコア計測のための時間
+start_time = Time.now
+
 Window.loop do
   pacman_x, pacman_y = pacmanMove(pacman_x, pacman_y, pacman_speed)
 
   ghost_x, ghost_y = ghostMove(ghost_x, ghost_y, ghost_speed, pacman_x, pacman_y)
 
   if gameOver(pacman_x, pacman_y, ghost_x, ghost_y)
+       
+    end_time = Time.now
+    elapsed_seconds = end_time - start_time
+    puts "あなたのスコア: #{elapsed_seconds}"
     break
   end
 
