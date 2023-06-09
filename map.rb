@@ -1,34 +1,16 @@
-def map(height, width)
-    maze = Array.new(height){Array.new(width, 1)}
-    start_x = rand(1..(width-2))
-    start_y = rand(1..(height-2))
-    maze[start_y][start_x] = " "
+def generate_maze(maze,x, y)
+    maze[y][x] = " "
 
-    stack = [[start_x, start_y]]
-    while !stack.empty?
-        x, y = stack.last
+    directions = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+    directions.shuffle!
 
-        neighbors = []
-        if x >= 3 and maze[y][x-2] == 1
-            neighbors << [x-2, y]
-        end
-        if x <= width-4 and maze[y][x+2] == 1
-            neighbors << [x+2, y]
-        end
-        if y >= 3 and maze[y-2][x] == 1
-            neighbors << [x, y-2]
-        end
-        if y <= height-4 and maze[y+2][x] == 1
-            neighbors << [x, y+2]
-        end
+    directions.each do |dx, dy|
+        nx = x + (dx * 2)
+        ny = y + (dy * 2)
 
-        if neighbors.empty?
-            stack.pop
-        else
-            nx, ny = neighbors.sample
-            maze[ny][nx] = " "
-            maze[ny + (y-ny)/2][nx + (x-nx)/2] = " "
-            stack << [nx, ny]
+        if nx.between?(1, maze[0].size - 2) && ny.between?(1, maze.size - 2) && maze[ny][nx] == "#"
+            maze[y + dy][x + dx] = " "
+            generate_maze(maze, nx, ny)
         end
     end
     return maze
