@@ -25,12 +25,18 @@ ghost_speed = 1
 # 迷路データ（仮のデータ）
 maze = maze = Array.new(15) { Array.new(21, "#") }
 maze = generate_maze(maze, 3, 5)
+#スコア計測のための時間
+start_time = Time.now
 Window.loop do
   print "\r#{directory(pacman_x, pacman_y)}"
   pacman_x, pacman_y = pacmanMove(pacman_x, pacman_y, pacman_speed, maze)
 
   ghost_x, ghost_y = ghostMove(ghost_x, ghost_y, ghost_speed, pacman_x, pacman_y)
   if gameOver(pacman_x, pacman_y, ghost_x, ghost_y)
+       
+    end_time = Time.now
+    elapsed_seconds = end_time - start_time
+    puts "あなたのスコア: #{elapsed_seconds}"
     break
   end
 
