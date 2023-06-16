@@ -6,16 +6,13 @@ require_relative 'pacmanMove'
 require_relative 'map'
 require_relative 'directory'
 require_relative 'item'
- 
+
 font = Font.new(32)
 count = 1
 Window.width = 640
 Window.height = 480
 
-# パックマンの初期位置と速度
-pacman_x = 320
-pacman_y = 160
-pacman_speed = 2
+
 
 # ゴーストの初期位置と速度
 ghost_x = 160
@@ -25,6 +22,16 @@ ghost_speed = 1
 # 迷路データ（仮のデータ）
 maze = maze = Array.new(15) { Array.new(21, "#") }
 maze = generate_maze(maze, 3, 5)
+
+# パックマンの初期位置と速度
+r=rand(15)
+c=rand(15)
+maze[c][r]=' '
+
+pacman_x=c*32
+pacman_y=r*32
+pacman_speed=2
+
 Window.loop do
   print "\r#{directory(pacman_x, pacman_y)}"
   pacman_x, pacman_y = pacmanMove(pacman_x, pacman_y, pacman_speed, maze)
