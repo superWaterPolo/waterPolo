@@ -1,17 +1,17 @@
 require 'dxruby'
-require_relative 'conflict'
 require_relative 'draw'
 require_relative 'gameOver'
 require_relative 'ghostMove'
 require_relative 'pacmanMove'
 require_relative 'map'
+require_relative 'directory'
 
 Window.width = 640
 Window.height = 480
 
 # パックマンの初期位置と速度
 pacman_x = 320
-pacman_y = 240
+pacman_y = 160
 pacman_speed = 2
 
 # ゴーストの初期位置と速度
@@ -23,14 +23,13 @@ ghost_speed = 1
 maze = maze = Array.new(15) { Array.new(21, "#") }
 maze = generate_maze(maze, 3, 5)
 Window.loop do
-  pacman_x, pacman_y = pacmanMove(pacman_x, pacman_y, pacman_speed)
+  print "\r#{directory(pacman_x, pacman_y)}"
+  pacman_x, pacman_y = pacmanMove(pacman_x, pacman_y, pacman_speed, maze)
 
   ghost_x, ghost_y = ghostMove(ghost_x, ghost_y, ghost_speed, pacman_x, pacman_y)
-
   if gameOver(pacman_x, pacman_y, ghost_x, ghost_y)
     break
   end
-
 
   # 迷路を描画
   maze.each_with_index do |row, y|
