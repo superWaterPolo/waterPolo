@@ -1,13 +1,24 @@
+require_relative 'conflict'
+require_relative 'directory'
 
-def pacmanMove(x, y, speed)
+def pacmanMove(x, y, speed, map)
+    r, c=directory(x, y)
     if Input.key_down?(K_LEFT)
-        x -= speed
+        if conflict(map, r, c, 3)
+            x -= speed
+        end
     elsif Input.key_down?(K_RIGHT)
-        x += speed
+        if conflict(map, r, c, 1)
+            x += speed
+        end
     elsif Input.key_down?(K_UP)
-        y -= speed
+        if conflict(map, r, c, 0)
+            y -= speed
+        end
     elsif Input.key_down?(K_DOWN)
-        y += speed
+        if conflict(map, r, c, 2)
+            y += speed
+        end
     end
     return x, y
 end
