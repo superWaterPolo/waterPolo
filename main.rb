@@ -32,12 +32,10 @@ pacman_speed=2
 
 start_time = Time.now
 Window.loop do
-  print "\r#{directory(pacman_x, pacman_y)}"
   pacman_x, pacman_y = pacmanMove(pacman_x, pacman_y, pacman_speed, maze)
 
   ghost_x, ghost_y = ghostMove(ghost_x, ghost_y, ghost_speed, pacman_x, pacman_y)
   if gameOver(pacman_x, pacman_y, ghost_x, ghost_y)
-       
     end_time = Time.now
     elapsed_seconds = end_time - start_time
     puts "あなたのスコア: #{elapsed_seconds}"
@@ -63,5 +61,5 @@ Window.loop do
   draw(ghost_x, ghost_y, C_RED)
 
   Window.draw_font(32,32,"score:#{count}",font)
-  count=count+1  
+  count=count+1
 end
